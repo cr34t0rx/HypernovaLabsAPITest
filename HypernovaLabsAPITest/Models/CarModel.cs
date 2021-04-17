@@ -24,5 +24,9 @@ namespace HypernovaLabsAPITest.Models
         public int ColorID { get; set; }
         public Color Color { get; set; }
         public Brand Brand { get; set; }
+        [Required]
+        public int Inventory { get; set; }
+        [Required]
+        public decimal DayPrice { get; set; }
     }
 }

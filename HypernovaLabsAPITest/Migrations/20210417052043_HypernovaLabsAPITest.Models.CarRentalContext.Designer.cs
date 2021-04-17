@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HypernovaLabsAPITest.Migrations
 {
     [DbContext(typeof(CarRentalContext))]
-    [Migration("20210416044722_HypernovaLabsAPITest.Models.CarRentalContext")]
+    [Migration("20210417052043_HypernovaLabsAPITest.Models.CarRentalContext")]
     partial class HypernovaLabsAPITestModelsCarRentalContext
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -52,8 +52,8 @@ namespace HypernovaLabsAPITest.Migrations
                     b.Property<int>("TotalDays")
                         .HasColumnType("int");
 
-                    b.Property<int>("TotalPrice")
-                        .HasColumnType("int");
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("UserID")
                         .HasColumnType("int");
@@ -113,6 +113,12 @@ namespace HypernovaLabsAPITest.Migrations
                     b.Property<int>("ColorID")
                         .HasColumnType("int");
 
+                    b.Property<decimal>("DayPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Inventory")
+                        .HasColumnType("int");
+
                     b.Property<string>("ModelName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -133,7 +139,9 @@ namespace HypernovaLabsAPITest.Migrations
                         {
                             ModelID = 1,
                             BrandID = 1,
-                            ColorID = 4,
+                            ColorID = 3,
+                            DayPrice = 3.10053638755369m,
+                            Inventory = 6,
                             ModelName = "Modelo 1",
                             ModelYear = 2001
                         },
@@ -141,7 +149,9 @@ namespace HypernovaLabsAPITest.Migrations
                         {
                             ModelID = 2,
                             BrandID = 1,
-                            ColorID = 2,
+                            ColorID = 1,
+                            DayPrice = 8.29840317610577m,
+                            Inventory = 7,
                             ModelName = "Modelo 2",
                             ModelYear = 2002
                         },
@@ -150,6 +160,8 @@ namespace HypernovaLabsAPITest.Migrations
                             ModelID = 3,
                             BrandID = 1,
                             ColorID = 3,
+                            DayPrice = 6.15401081887726m,
+                            Inventory = 9,
                             ModelName = "Modelo 3",
                             ModelYear = 2003
                         },
@@ -157,7 +169,9 @@ namespace HypernovaLabsAPITest.Migrations
                         {
                             ModelID = 4,
                             BrandID = 1,
-                            ColorID = 1,
+                            ColorID = 2,
+                            DayPrice = 0.919242403432374m,
+                            Inventory = 6,
                             ModelName = "Modelo 4",
                             ModelYear = 2004
                         },
@@ -165,7 +179,9 @@ namespace HypernovaLabsAPITest.Migrations
                         {
                             ModelID = 5,
                             BrandID = 2,
-                            ColorID = 4,
+                            ColorID = 3,
+                            DayPrice = 5.93866211014737m,
+                            Inventory = 3,
                             ModelName = "Modelo 1",
                             ModelYear = 2001
                         },
@@ -173,7 +189,9 @@ namespace HypernovaLabsAPITest.Migrations
                         {
                             ModelID = 6,
                             BrandID = 2,
-                            ColorID = 4,
+                            ColorID = 2,
+                            DayPrice = 1.34892628111361m,
+                            Inventory = 2,
                             ModelName = "Modelo 2",
                             ModelYear = 2002
                         },
@@ -182,6 +200,8 @@ namespace HypernovaLabsAPITest.Migrations
                             ModelID = 7,
                             BrandID = 2,
                             ColorID = 1,
+                            DayPrice = 4.75348944596643m,
+                            Inventory = 8,
                             ModelName = "Modelo 3",
                             ModelYear = 2003
                         },
@@ -189,7 +209,9 @@ namespace HypernovaLabsAPITest.Migrations
                         {
                             ModelID = 8,
                             BrandID = 2,
-                            ColorID = 1,
+                            ColorID = 2,
+                            DayPrice = 9.84840251735803m,
+                            Inventory = 6,
                             ModelName = "Modelo 4",
                             ModelYear = 2004
                         },
@@ -197,7 +219,9 @@ namespace HypernovaLabsAPITest.Migrations
                         {
                             ModelID = 9,
                             BrandID = 3,
-                            ColorID = 2,
+                            ColorID = 3,
+                            DayPrice = 4.87252537802445m,
+                            Inventory = 6,
                             ModelName = "Modelo 1",
                             ModelYear = 2001
                         },
@@ -205,7 +229,9 @@ namespace HypernovaLabsAPITest.Migrations
                         {
                             ModelID = 10,
                             BrandID = 3,
-                            ColorID = 3,
+                            ColorID = 2,
+                            DayPrice = 9.51205918593894m,
+                            Inventory = 6,
                             ModelName = "Modelo 2",
                             ModelYear = 2002
                         },
@@ -213,7 +239,9 @@ namespace HypernovaLabsAPITest.Migrations
                         {
                             ModelID = 11,
                             BrandID = 3,
-                            ColorID = 4,
+                            ColorID = 3,
+                            DayPrice = 2.96829383008568m,
+                            Inventory = 8,
                             ModelName = "Modelo 3",
                             ModelYear = 2003
                         },
@@ -221,7 +249,9 @@ namespace HypernovaLabsAPITest.Migrations
                         {
                             ModelID = 12,
                             BrandID = 3,
-                            ColorID = 4,
+                            ColorID = 1,
+                            DayPrice = 7.18284205742313m,
+                            Inventory = 5,
                             ModelName = "Modelo 4",
                             ModelYear = 2004
                         });
@@ -265,115 +295,6 @@ namespace HypernovaLabsAPITest.Migrations
                         });
                 });
 
-            modelBuilder.Entity("HypernovaLabsAPITest.Models.Inventory", b =>
-                {
-                    b.Property<int>("InventoryID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<decimal>("DayPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("ModelID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Total")
-                        .HasColumnType("int");
-
-                    b.HasKey("InventoryID");
-
-                    b.HasIndex("ModelID");
-
-                    b.ToTable("Inventories");
-
-                    b.HasData(
-                        new
-                        {
-                            InventoryID = 1,
-                            DayPrice = 9.91017914042351m,
-                            ModelID = 1,
-                            Total = 3
-                        },
-                        new
-                        {
-                            InventoryID = 2,
-                            DayPrice = 8.85846800364483m,
-                            ModelID = 2,
-                            Total = 9
-                        },
-                        new
-                        {
-                            InventoryID = 3,
-                            DayPrice = 1.86569340287973m,
-                            ModelID = 3,
-                            Total = 3
-                        },
-                        new
-                        {
-                            InventoryID = 4,
-                            DayPrice = 2.98061566994554m,
-                            ModelID = 4,
-                            Total = 8
-                        },
-                        new
-                        {
-                            InventoryID = 5,
-                            DayPrice = 5.24224355409026m,
-                            ModelID = 5,
-                            Total = 7
-                        },
-                        new
-                        {
-                            InventoryID = 6,
-                            DayPrice = 3.8172259649342m,
-                            ModelID = 6,
-                            Total = 9
-                        },
-                        new
-                        {
-                            InventoryID = 7,
-                            DayPrice = 4.04844861768579m,
-                            ModelID = 7,
-                            Total = 6
-                        },
-                        new
-                        {
-                            InventoryID = 8,
-                            DayPrice = 5.7949407294369m,
-                            ModelID = 8,
-                            Total = 9
-                        },
-                        new
-                        {
-                            InventoryID = 9,
-                            DayPrice = 0.330675572729984m,
-                            ModelID = 9,
-                            Total = 1
-                        },
-                        new
-                        {
-                            InventoryID = 10,
-                            DayPrice = 2.38738872724929m,
-                            ModelID = 10,
-                            Total = 5
-                        },
-                        new
-                        {
-                            InventoryID = 11,
-                            DayPrice = 6.58180789872157m,
-                            ModelID = 11,
-                            Total = 9
-                        },
-                        new
-                        {
-                            InventoryID = 12,
-                            DayPrice = 2.305686498436m,
-                            ModelID = 12,
-                            Total = 1
-                        });
-                });
-
             modelBuilder.Entity("HypernovaLabsAPITest.Models.User", b =>
                 {
                     b.Property<int>("UserID")
@@ -403,6 +324,17 @@ namespace HypernovaLabsAPITest.Migrations
                     b.HasKey("UserID");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            UserID = 1,
+                            CreationDate = new DateTime(2021, 4, 17, 0, 20, 42, 819, DateTimeKind.Local).AddTicks(7467),
+                            Email = "pedro@perez.com",
+                            FirstName = "Pedro",
+                            LastName = "Perez",
+                            Password = "password"
+                        });
                 });
 
             modelBuilder.Entity("HypernovaLabsAPITest.Models.Booking", b =>
@@ -441,17 +373,6 @@ namespace HypernovaLabsAPITest.Migrations
                     b.Navigation("Brand");
 
                     b.Navigation("Color");
-                });
-
-            modelBuilder.Entity("HypernovaLabsAPITest.Models.Inventory", b =>
-                {
-                    b.HasOne("HypernovaLabsAPITest.Models.CarModel", "CarModel")
-                        .WithMany()
-                        .HasForeignKey("ModelID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CarModel");
                 });
 
             modelBuilder.Entity("HypernovaLabsAPITest.Models.Brand", b =>

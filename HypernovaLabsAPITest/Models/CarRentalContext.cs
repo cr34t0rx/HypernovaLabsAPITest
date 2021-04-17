@@ -50,34 +50,30 @@ namespace HypernovaLabsAPITest.Models
                         BrandID = b.BrandID,
                         ColorID = colors[r.Next(0, colors.Count)].ColorID,
                         ModelName = $"Modelo {i}",
-                        ModelYear = 2000 + i
+                        ModelYear = 2000 + i,
+                        Inventory = r.Next(1, 10),
+                        DayPrice = Convert.ToDecimal(r.NextDouble() * 10.1)
                     });
                     counter++;
                 }
             }
             modelBuilder.Entity<CarModel>().HasData(models);
 
-            counter = 1;
-            var inventories = new List<Inventory>();
-            foreach (var cm in models)
+            modelBuilder.Entity<User>().HasData(new User
             {
-                inventories.Add(new Inventory
-                {
-                    InventoryID = counter,
-                    ModelID = cm.ModelID,
-                    Total = r.Next(1, 10),
-                    DayPrice = Convert.ToDecimal(r.NextDouble() * 10.1)
-                });
-                counter++;
-            }
-            modelBuilder.Entity<Inventory>().HasData(inventories);
+                UserID = 1,
+                FirstName = "Pedro",
+                LastName = "Perez",
+                Email = "pedro@perez.com",
+                Password = "password",
+                CreationDate = DateTime.Now
+            });
         }
 
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<CarModel> CarModels { get; set; }
         public DbSet<Color> Colors { get; set; }
-        public DbSet<Inventory> Inventories { get; set; }
         public DbSet<User> Users { get; set; }
     }
 }

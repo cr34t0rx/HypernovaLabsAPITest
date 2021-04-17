@@ -19,7 +19,7 @@ namespace HypernovaLabsAPITest.Models
         [Required]
         public int TotalDays { get; set; }
         [Required]
-        public int TotalPrice { get; set; }
+        public decimal TotalPrice { get; set; }
         public string ClientFirstName { get; set; }
         public string ClientLastName { get; set; }
         public string Email { get; set; }

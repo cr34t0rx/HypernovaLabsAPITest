@@ -59,7 +59,9 @@ namespace HypernovaLabsAPITest.Migrations
                     ModelName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ModelYear = table.Column<int>(type: "int", nullable: false),
                     BrandID = table.Column<int>(type: "int", nullable: false),
-                    ColorID = table.Column<int>(type: "int", nullable: false)
+                    ColorID = table.Column<int>(type: "int", nullable: false),
+                    Inventory = table.Column<int>(type: "int", nullable: false),
+                    DayPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -87,7 +89,7 @@ namespace HypernovaLabsAPITest.Migrations
                     BookingDateFrom = table.Column<DateTime>(type: "datetime2", nullable: false),
                     BookingDateTo = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TotalDays = table.Column<int>(type: "int", nullable: false),
-                    TotalPrice = table.Column<int>(type: "int", nullable: false),
+                    TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ClientFirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClientLastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -109,27 +111,6 @@ namespace HypernovaLabsAPITest.Migrations
                         column: x => x.UserID,
                         principalTable: "Users",
                         principalColumn: "UserID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Inventories",
-                columns: table => new
-                {
-                    InventoryID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ModelID = table.Column<int>(type: "int", nullable: false),
-                    Total = table.Column<int>(type: "int", nullable: false),
-                    DayPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Inventories", x => x.InventoryID);
-                    table.ForeignKey(
-                        name: "FK_Inventories_CarModels_ModelID",
-                        column: x => x.ModelID,
-                        principalTable: "CarModels",
-                        principalColumn: "ModelID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -155,41 +136,27 @@ namespace HypernovaLabsAPITest.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "CarModels",
-                columns: new[] { "ModelID", "BrandID", "ColorID", "ModelName", "ModelYear" },
-                values: new object[,]
-                {
-                    { 4, 1, 1, "Modelo 4", 2004 },
-                    { 7, 2, 1, "Modelo 3", 2003 },
-                    { 8, 2, 1, "Modelo 4", 2004 },
-                    { 2, 1, 2, "Modelo 2", 2002 },
-                    { 9, 3, 2, "Modelo 1", 2001 },
-                    { 3, 1, 3, "Modelo 3", 2003 },
-                    { 10, 3, 3, "Modelo 2", 2002 },
-                    { 1, 1, 4, "Modelo 1", 2001 },
-                    { 5, 2, 4, "Modelo 1", 2001 },
-                    { 6, 2, 4, "Modelo 2", 2002 },
-                    { 11, 3, 4, "Modelo 3", 2003 },
-                    { 12, 3, 4, "Modelo 4", 2004 }
-                });
+                table: "Users",
+                columns: new[] { "UserID", "CreationDate", "Email", "FirstName", "LastName", "Password" },
+                values: new object[] { 1, new DateTime(2021, 4, 17, 0, 20, 42, 819, DateTimeKind.Local).AddTicks(7467), "pedro@perez.com", "Pedro", "Perez", "password" });
 
             migrationBuilder.InsertData(
-                table: "Inventories",
-                columns: new[] { "InventoryID", "DayPrice", "ModelID", "Total" },
+                table: "CarModels",
+                columns: new[] { "ModelID", "BrandID", "ColorID", "DayPrice", "Inventory", "ModelName", "ModelYear" },
                 values: new object[,]
                 {
-                    { 4, 2.98061566994554m, 4, 8 },
-                    { 7, 4.04844861768579m, 7, 6 },
-                    { 8, 5.7949407294369m, 8, 9 },
-                    { 2, 8.85846800364483m, 2, 9 },
-                    { 9, 0.330675572729984m, 9, 1 },
-                    { 3, 1.86569340287973m, 3, 3 },
-                    { 10, 2.38738872724929m, 10, 5 },
-                    { 1, 9.91017914042351m, 1, 3 },
-                    { 5, 5.24224355409026m, 5, 7 },
-                    { 6, 3.8172259649342m, 6, 9 },
-                    { 11, 6.58180789872157m, 11, 9 },
-                    { 12, 2.305686498436m, 12, 1 }
+                    { 2, 1, 1, 8.29840317610577m, 7, "Modelo 2", 2002 },
+                    { 7, 2, 1, 4.75348944596643m, 8, "Modelo 3", 2003 },
+                    { 12, 3, 1, 7.18284205742313m, 5, "Modelo 4", 2004 },
+                    { 4, 1, 2, 0.919242403432374m, 6, "Modelo 4", 2004 },
+                    { 6, 2, 2, 1.34892628111361m, 2, "Modelo 2", 2002 },
+                    { 8, 2, 2, 9.84840251735803m, 6, "Modelo 4", 2004 },
+                    { 10, 3, 2, 9.51205918593894m, 6, "Modelo 2", 2002 },
+                    { 1, 1, 3, 3.10053638755369m, 6, "Modelo 1", 2001 },
+                    { 3, 1, 3, 6.15401081887726m, 9, "Modelo 3", 2003 },
+                    { 5, 2, 3, 5.93866211014737m, 3, "Modelo 1", 2001 },
+                    { 9, 3, 3, 4.87252537802445m, 6, "Modelo 1", 2001 },
+                    { 11, 3, 3, 2.96829383008568m, 8, "Modelo 3", 2003 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -211,11 +178,6 @@ namespace HypernovaLabsAPITest.Migrations
                 name: "IX_CarModels_ColorID",
                 table: "CarModels",
                 column: "ColorID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Inventories_ModelID",
-                table: "Inventories",
-                column: "ModelID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -224,13 +186,10 @@ namespace HypernovaLabsAPITest.Migrations
                 name: "Bookings");
 
             migrationBuilder.DropTable(
-                name: "Inventories");
+                name: "CarModels");
 
             migrationBuilder.DropTable(
                 name: "Users");
-
-            migrationBuilder.DropTable(
-                name: "CarModels");
 
             migrationBuilder.DropTable(
                 name: "Brands");
