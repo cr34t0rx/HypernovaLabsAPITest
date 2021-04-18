@@ -19,7 +19,7 @@ namespace HypernovaLabsAPITest.Controllers
 
         [HttpGet("api/GetAvailableInventory")]
         [ProducesResponseType(typeof(List<InventoryViewModel>), 200)]
-        [SwaggerOperation("Listado de vehiculos disponibles", "Registra un usuario y devuelve un token JWT")]
+        [SwaggerOperation("Listado de vehiculos disponibles", "Devuelve una lista de vehiculos disponibles para alquilar, hace un calculo sencillo entre el total de vehiculos en el inventarios menos los vehiculos presentes en la tabla de alquiler para filtrar la informacion")]
         public IActionResult GetAvailableInventory()
         {
             return Ok(_carRentalRepository.GetAvailableInventory());
